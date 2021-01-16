@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Debug executable",
+            "type": "lldb",
+            "request": "launch",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=tysh",
+                    "--package=tysh"
+                ],
+                "filter": {
+                    "name": "tysh",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+    ]
+}
