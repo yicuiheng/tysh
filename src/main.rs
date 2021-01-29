@@ -1,6 +1,8 @@
 use std::io::{stdout, Write};
 
-mod operation;
+mod expr;
+mod meta_operation;
+
 fn main() {
     loop {
         print!("> ");
@@ -9,9 +11,16 @@ fn main() {
         std::io::stdin()
             .read_line(&mut line)
             .expect("cannot read line");
-        match operation::parse(&line) {
-            Ok(op) => op.execute(),
-            Err(msg) => eprintln!("! {}", msg),
+        if let Ok(op) = meta_operation::parse(&line) {
+            op.execute()
+        } else if let Ok(expr) = expr::parse::expr(&line) {
+            if let Err(_) = expr.typecheck() {
+                eprintln!("! type error: ");
+            } else {
+                expr.eval();
+            }
+        } else {
+            eprintln!("! invalid input");
         }
     }
 }
